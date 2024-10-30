@@ -13,8 +13,7 @@ async fn main() -> std::io::Result<()> {
         let i2c_manager = Arc::clone(&i2c_manager); // Clone the Arc
 
         App::new()
-            .app_data(web::Data::new(i2c_manager)) // Pass it to the app state
-            //.route("/servo/{angle}", web::get().to(set_servo_angle))
+            .app_data(web::Data::new(i2c_manager))
             .route("/servos/list", web::get().to(get_servos)) // New route to list servos
     })
         .bind("0.0.0.0:8080")?
@@ -24,15 +23,8 @@ async fn main() -> std::io::Result<()> {
 
 // Handler Functions
 
-async fn set_servo_angle(web::Path(angle): web::Path<u16>, i2c_manager: web::Data<Arc<Mutex<I2cManager>>>) -> String {
-    let mut manager = i2c_manager.lock().unwrap(); // Lock the Mutex
-    manager.set_servo_angle(angle);
-
-    format!("Servo set to angle: {}", angle) // Return a response
-}
-
 async fn get_servos(i2c_manager: web::Data<Arc<Mutex<I2cManager>>>) -> String {
-    let mut manager = i2c_manager.lock().unwrap();
+    let manager = i2c_manager.lock().unwrap();
     manager.list_servos();
     "Servos list".to_string()
 }

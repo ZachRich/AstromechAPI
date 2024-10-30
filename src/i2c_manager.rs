@@ -1,5 +1,6 @@
 use rppal::i2c::I2c;
 
+#[allow(dead_code)]
 pub struct I2cManager {
     i2c: I2c,
 }
@@ -13,9 +14,5 @@ impl I2cManager {
     pub fn list_servos(&self) -> Vec<u8> {
         // The PCA9685 can control up to 16 servos (0-15)
         (0..16).collect() // Return the available servo channels
-    }
-
-    pub fn set_servo_angle(&mut self, angle: u16) {
-        // TODO
     }
 }
