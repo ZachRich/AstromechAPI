@@ -3,7 +3,7 @@ pub mod move_request {
 
     #[derive(Deserialize)]
     pub struct MoveRequest {
-        pub channel: u8,
-        pub angle: u16, // angle in degrees, from 0 to 180
+        pub servo_name: String, // Use servo name instead of channel
+        pub angle: u16,         // Angle in degrees
     }
 }
