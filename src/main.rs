@@ -1,21 +1,61 @@
+// main.rs
 mod move_request;
 mod pca9685_controller;
 mod servo_info;
+mod servo_manager;
 
 use crate::move_request::move_request::MoveRequest;
-use crate::pca9685_controller::Pca9685Controller;
+use crate::servo_info::ServoInfo;
+use crate::servo_manager::ServoManager;
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
-use pwm_pca9685::Channel;
+use pwm_pca9685::Address;
+use serde::Deserialize;
+use std::fs;
+
+#[derive(Deserialize)]
+struct Config {
+    controllers: Vec<ControllerConfig>,
+    servos: Vec<ServoInfo>,
+}
+
+#[derive(Deserialize)]
+struct ControllerConfig {
+    id: String,
+    address: String, // Hex string like "0x40" or "default"
+}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    // Set up the PCA9685 controller
-    let controller = Pca9685Controller::new();
+    // Load configuration
+    let config_data =
+        fs::read_to_string("src/servo_config.json").expect("Failed to read config.json");
+    let config: Config = serde_json::from_str(&config_data).expect("Invalid servo_config.json");
+
+    // Initialize controllers
+    let controllers = config
+        .controllers
+        .into_iter()
+        .map(|conf| {
+            let address = match conf.address.as_str() {
+                "default" => Address::default(),
+                addr_str => {
+                    let addr = u8::from_str_radix(&addr_str.trim_start_matches("0x"), 16)
+                        .expect("Invalid address format");
+                    Address::from(addr)
+                }
+            };
+            let controller = pca9685_controller::Pca9685Controller::new(address);
+            (conf.id, controller)
+        })
+        .collect();
+
+    // Create the ServoManager
+    let servo_manager = ServoManager::new(controllers, config.servos);
 
     // Set up the Actix server
     HttpServer::new(move || {
         App::new()
-            .app_data(web::Data::new(controller.clone()))
+            .app_data(web::Data::new(servo_manager.clone()))
             .route("/servos", web::get().to(get_available_servos_handler))
             .route("/servos/move", web::post().to(move_servo_handler))
     })
@@ -25,56 +65,23 @@ async fn main() -> std::io::Result<()> {
 }
 
 // Handler function to get all available servos
-async fn get_available_servos_handler(
-    controller: web::Data<Pca9685Controller>,
-) -> impl Responder {
-    let servos = controller.get_available_servos();
+async fn get_available_servos_handler(servo_manager: web::Data<ServoManager>) -> impl Responder {
+    let servos = servo_manager.get_available_servos();
     HttpResponse::Ok().json(servos)
 }
 
+// Handler function to move a servo
 async fn move_servo_handler(
     body: web::Json<MoveRequest>,
-    controller: web::Data<Pca9685Controller>,
+    servo_manager: web::Data<ServoManager>,
 ) -> impl Responder {
     let angle = body.angle;
     if angle > 90 {
         return HttpResponse::BadRequest().body("Invalid angle. Servo supports 0° to 90°.");
     }
 
-    // Look up the servo by name
-    let servo_name = &body.servo_name;
-    let servo_info = controller.get_servo_by_name(servo_name);
-    let servo_info = match servo_info {
-        Some(info) => info,
-        None => return HttpResponse::BadRequest().body("Servo not found"),
-    };
-
-    let pulse_width = angle_to_pulse(angle);
-
-    // Convert the channel number to `Channel` enum
-    let channel = match servo_info.channel {
-        0 => Channel::C0,
-        1 => Channel::C1,
-        2 => Channel::C2,
-        3 => Channel::C3,
-        4 => Channel::C4,
-        // Add more channels as needed
-        _ => return HttpResponse::BadRequest().body("Invalid channel"),
-    };
-
-    controller.move_servo(channel, pulse_width).await;
-    HttpResponse::Ok().json("Servo moved")
+    match servo_manager.move_servo(&body.servo_name, angle).await {
+        Ok(_) => HttpResponse::Ok().json("Servo moved"),
+        Err(err) => HttpResponse::BadRequest().body(err),
+    }
 }
-
-fn angle_to_pulse(angle: u16) -> u16 {
-    let min_pulse = 246u32; // Counts for 1 ms pulse width
-    let max_pulse = 492u32; // Counts for 2 ms pulse width
-
-    // Limit angle to 0 - 90 degrees
-    let angle = if angle > 90 { 90 } else { angle };
-
-    let pulse_width = min_pulse + ((max_pulse - min_pulse) * angle as u32) / 90u32;
-    pulse_width as u16
-}
-
-
