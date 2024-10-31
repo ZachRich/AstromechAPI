@@ -38,7 +38,7 @@ impl Pca9685Controller {
             pwm.set_channel_on(channel, 0).unwrap();
             pwm.set_channel_off(channel, pulse_width).unwrap();
         })
-            .await
-            .unwrap();
+        .await
+        .unwrap();
     }
 }
