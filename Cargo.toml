@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 linux-embedded-hal = "0.4.0"
 pwm-pca9685 = "1.0.0" # for interacting with the PCA9685 boards
+tokio = { version = "1", features = ["full"] }
 
 
 [build]
