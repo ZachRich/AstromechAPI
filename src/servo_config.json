@@ -1,22 +1,40 @@
-[
-  {
-    "channel": 0,
-    "name": "Pie Panel 1"
-  },
-  {
-    "channel": 1,
-    "name": "Pie Panel 2"
-  },
-  {
-    "channel": 2,
-    "name": "Pie Panel 3"
-  },
-  {
-    "channel": 3,
-    "name": "Pie Panel 4"
-  },
-  {
-    "channel": 4,
-    "name": "Pie Panel 5"
-  }
-]
+{
+  "controllers": [
+    {
+      "id": "dome",
+      "address": "0x40"
+    }
+  ],
+  "servos": [
+    {
+      "name": "Pie Panel 1",
+      "controller_id": "dome",
+      "channel": 0
+    },
+    {
+      "name": "Pie Panel 2",
+      "controller_id": "dome",
+      "channel": 1
+    },
+    {
+      "name": "Pie Panel 3",
+      "controller_id": "dome",
+      "channel": 2
+    },
+    {
+      "name": "Pie Panel 4",
+      "controller_id": "dome",
+      "channel": 3
+    },
+    {
+      "name": "Pie Panel 5",
+      "controller_id": "dome",
+      "channel": 4
+    },
+    {
+      "name": "Pie Panel 6",
+      "controller_id": "dome",
+      "channel": 5
+    }
+  ]
+}
