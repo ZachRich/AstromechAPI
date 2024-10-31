@@ -9,7 +9,7 @@ pwm-pca9685 = "1.0.0" # for interacting with the PCA9685 boards
 tokio = { version = "1", features = ["full"] }
 serde = { version = "1.0.214", features = ["derive"] }
 actix-web = "4.9.0"
-
+serde_json = "1.0.132"
 
 [build]
-target = "armv7-unknown-linux-gnueabihf" # Adjust as needed
+target = "armv7-unknown-linux-gnueabihf"

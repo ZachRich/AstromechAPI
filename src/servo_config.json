@@ -1,0 +1,22 @@
+[
+  {
+    "channel": 0,
+    "name": "Pie Panel 1"
+  },
+  {
+    "channel": 1,
+    "name": "Pie Panel 2"
+  },
+  {
+    "channel": 2,
+    "name": "Pie Panel 3"
+  },
+  {
+    "channel": 3,
+    "name": "Pie Panel 4"
+  },
+  {
+    "channel": 4,
+    "name": "Pie Panel 5"
+  }
+]
