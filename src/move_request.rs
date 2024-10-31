@@ -1,9 +1,9 @@
 pub mod move_request {
     use serde::Deserialize;
 
-    #[derive(Deserialize, Clone)]
+    #[derive(Deserialize)]
     pub struct MoveRequest {
         pub channel: u8,
-        pub position: String,
+        pub angle: u16, // angle in degrees, from 0 to 180
     }
 }
