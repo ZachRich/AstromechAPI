@@ -16,6 +16,10 @@
       - sudo apt update && sudo apt install build-essential git cmake pkg-config
       - sudo apt install gdb-multiarch
 
+7. Install Audio library
+   - sudo apt-get install libasound2-dev
+   - 
+
  8.  Install Git
      - sudo apt install git
        
