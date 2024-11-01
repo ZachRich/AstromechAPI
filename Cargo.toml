@@ -6,7 +6,9 @@ edition = "2021"
 [dependencies]
 linux-embedded-hal = "0.4.0"
 pwm-pca9685 = "1.0.0" # for interacting with the PCA9685 boards
-tokio = { version = "1", features = ["full"] }
+tokio = { version = "1.41.0", features = ["full"] }
 serde = { version = "1.0.214", features = ["derive"] }
 actix-web = "4.9.0"
 serde_json = "1.0.132"
+rodio = "0.19.0"
+uuid = { version = "1.11.0", features = ["v4"] }
