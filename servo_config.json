@@ -15,26 +15,6 @@
       "name": "Pie Panel 2",
       "controller_id": "dome",
       "channel": 1
-    },
-    {
-      "name": "Pie Panel 3",
-      "controller_id": "dome",
-      "channel": 2
-    },
-    {
-      "name": "Pie Panel 4",
-      "controller_id": "dome",
-      "channel": 3
-    },
-    {
-      "name": "Pie Panel 5",
-      "controller_id": "dome",
-      "channel": 4
-    },
-    {
-      "name": "Pie Panel 6",
-      "controller_id": "dome",
-      "channel": 5
     }
   ]
 }

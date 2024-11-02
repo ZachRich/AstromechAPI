@@ -3,6 +3,7 @@ mod move_request;
 mod pca9685_controller;
 mod servo_info;
 mod servo_manager;
+mod audio_manager;
 
 use crate::move_request::move_request::MoveRequest;
 use crate::servo_info::ServoInfo;
@@ -11,6 +12,7 @@ use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use pwm_pca9685::Address;
 use serde::Deserialize;
 use std::fs;
+use crate::audio_manager::AudioManager;
 
 #[derive(Deserialize)]
 struct Config {
@@ -24,11 +26,16 @@ struct ControllerConfig {
     address: String, // Hex string like "0x40" or "default"
 }
 
+#[derive(Deserialize)]
+struct PlayAudioRequest {
+    filename: String,
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     // Load configuration
     let config_data =
-        fs::read_to_string("src/servo_config.json").expect("Failed to read config.json");
+        fs::read_to_string("servo_config.json").expect("Failed to read config.json");
     let config: Config = serde_json::from_str(&config_data).expect("Invalid servo_config.json");
 
     // Initialize controllers
@@ -85,3 +92,18 @@ async fn move_servo_handler(
         Err(err) => HttpResponse::BadRequest().body(err),
     }
 }
+
+async fn play_audio_handler(
+    body: web::Json<PlayAudioRequest>,
+    audio_manager: web::Data<AudioManager>,
+) -> impl Responder {
+    let filename = &body.filename;
+    let file_path = format!("audio/{}", filename);
+    // Call the play_audio method
+    if let Err(e) = audio_manager.play_audio(&file_path) {
+        eprintln!("Error playing audio: {}", e);
+        return HttpResponse::InternalServerError().body("Failed to play audio");
+    }
+    HttpResponse::Ok().body("Audio playback started")
+}
+
