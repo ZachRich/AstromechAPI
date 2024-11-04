@@ -1,0 +1,123 @@
+{
+	"info": {
+		"_postman_id": "435390b3-03b6-40bc-b153-92f6f4755dc1",
+		"name": "AstromechAPI",
+		"description": "API collection for controlling Astromech servos and components",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10290509"
+	},
+	"item": [
+		{
+			"name": "Servo Control",
+			"item": [
+				{
+					"name": "List All Servos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/servos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"servos"
+							]
+						},
+						"description": "Get a list of all configured servos and their details"
+					},
+					"response": []
+				},
+				{
+					"name": "Move Servo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"angle\": 45.0\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/servos/{{servoName}}/move",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"servos",
+								"{{servoName}}",
+								"move"
+							]
+						},
+						"description": "Move a specific servo to the desired angle"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for managing and controlling servos"
+		},
+		{
+			"name": "Controllers",
+			"item": [
+				{
+					"name": "List Controllers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/controllers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"controllers"
+							]
+						},
+						"description": "Get a list of all PCA9685 controllers and their configurations"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for managing PCA9685 controllers"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3030",
+			"type": "string"
+		},
+		{
+			"key": "servoName",
+			"value": "head_rotation",
+			"type": "string"
+		}
+	]
+}
