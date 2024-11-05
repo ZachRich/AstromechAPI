@@ -17,8 +17,8 @@
       - sudo apt install gdb-multiarch
 
 7. Install Audio library
-   - sudo apt-get install libasound2-dev
-   - 
+   - sudo apt-get install libasound2-dev (May not be necessary)
+   - sudo apt install mp3info
 
  8.  Install Git
      - sudo apt install git

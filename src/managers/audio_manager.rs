@@ -166,4 +166,39 @@ impl AudioManager {
 
         Ok(())
     }
+
+    pub async fn get_duration(&self, filename: &str) -> Result<f64, HardwareError> {
+        let full_path = Path::new(&self.config.audio_directory).join(filename);
+        if !full_path.exists() {
+            return Err(HardwareError::NotFound(format!(
+                "Audio file not found: {:?}",
+                full_path
+            )));
+        }
+
+        let output = Command::new("mp3info")
+            .arg("-p")
+            .arg("%S")
+            .arg(full_path)
+            .output()
+            .await
+            .map_err(|e| HardwareError::Other(format!("Failed to execute mp3info: {}", e)))?;
+
+        if !output.status.success() {
+            return Err(HardwareError::Other(format!(
+                "mp3info failed with status code: {}",
+                output.status
+            )));
+        }
+
+        let duration_str = String::from_utf8(output.stdout)
+            .map_err(|e| HardwareError::Other(format!("Failed to parse mp3info output: {}", e)))?;
+
+        let duration = duration_str
+            .trim()
+            .parse::<f64>()
+            .map_err(|e| HardwareError::Other(format!("Failed to parse duration: {}", e)))?;
+
+        Ok(duration)
+    }
 }

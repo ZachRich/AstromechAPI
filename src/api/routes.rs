@@ -1,4 +1,5 @@
 use crate::api::audio_handler;
+use crate::api::audio_handler::get_duration;
 use crate::api::handlers::{list_controllers, list_servos, move_servo};
 use actix_web::web;
 
@@ -18,7 +19,8 @@ pub fn configure_routes(cfg: &mut web::ServiceConfig) {
                     .route(
                         "/status/{id}",
                         web::get().to(audio_handler::get_audio_status),
-                    ),
+                    )
+                    .route("/duration", web::post().to(get_duration)),
             ),
     );
 }
