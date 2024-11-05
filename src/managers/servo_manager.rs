@@ -1,8 +1,8 @@
 // src/managers/servo_manager.rs
+use log::{error, info};
 use std::collections::HashMap;
 use std::sync::Arc;
 use tokio::sync::Mutex;
-use log::{error, info};
 
 use crate::errors::hardware_error::HardwareError;
 use crate::hardware::servo::config::{Pca9685Config, ServoConfig};
@@ -43,9 +43,10 @@ impl ServoManager {
 
         // Verify controller exists
         if !controllers.contains_key(&config.controller_id) {
-            return Err(HardwareError::NotFound(
-                format!("Controller '{}' not found", config.controller_id)
-            ));
+            return Err(HardwareError::NotFound(format!(
+                "Controller '{}' not found",
+                config.controller_id
+            )));
         }
 
         // Store servo config
@@ -58,9 +59,10 @@ impl ServoManager {
         // Get servo config
         let servo_config = {
             let servos = self.servos.lock().await;
-            servos.get(name).cloned().ok_or_else(|| {
-                HardwareError::NotFound(format!("Servo '{}' not found", name))
-            })?
+            servos
+                .get(name)
+                .cloned()
+                .ok_or_else(|| HardwareError::NotFound(format!("Servo '{}' not found", name)))?
         };
 
         // Validate angle
@@ -73,12 +75,14 @@ impl ServoManager {
 
         // Get controller
         let controllers = self.controllers.lock().await;
-        let controller = controllers.get(&servo_config.controller_id).ok_or_else(|| {
-            HardwareError::NotFound(format!(
-                "Controller '{}' not found",
-                servo_config.controller_id
-            ))
-        })?;
+        let controller = controllers
+            .get(&servo_config.controller_id)
+            .ok_or_else(|| {
+                HardwareError::NotFound(format!(
+                    "Controller '{}' not found",
+                    servo_config.controller_id
+                ))
+            })?;
 
         // Convert angle to pulse width
         let pulse_width = self.angle_to_pulse(&servo_config, angle);
@@ -101,14 +105,19 @@ impl ServoManager {
             13 => Channel::C13,
             14 => Channel::C14,
             15 => Channel::C15,
-            _ => return Err(HardwareError::InvalidParameter(format!(
-                "Invalid channel number: {}",
-                servo_config.channel
-            ))),
+            _ => {
+                return Err(HardwareError::InvalidParameter(format!(
+                    "Invalid channel number: {}",
+                    servo_config.channel
+                )))
+            }
         };
 
         // Move servo
-        info!("Moving servo '{}' to angle {} (pulse width {})", name, angle, pulse_width);
+        info!(
+            "Moving servo '{}' to angle {} (pulse width {})",
+            name, angle, pulse_width
+        );
         controller.move_servo(channel, pulse_width).await?;
 
         Ok(())
@@ -119,8 +128,8 @@ impl ServoManager {
         let pulse_range = servo.max_pulse - servo.min_pulse;
 
         let normalized_angle = angle - servo.min_angle;
-        let pulse_width = servo.min_pulse as f64 +
-            (normalized_angle * pulse_range as f64) / angle_range;
+        let pulse_width =
+            servo.min_pulse as f64 + (normalized_angle * pulse_range as f64) / angle_range;
 
         pulse_width as u16
     }

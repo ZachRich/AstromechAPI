@@ -13,10 +13,10 @@ mod managers;
 mod traits;
 
 use crate::errors::hardware_error::HardwareError;
-use crate::hardware::servo::config::{Pca9685Config, ServoConfig};
-use crate::managers::servo_manager::ServoManager;
-use crate::managers::audio_manager::AudioManager;
 use crate::hardware::audio::config::AudioConfig;
+use crate::hardware::servo::config::{Pca9685Config, ServoConfig};
+use crate::managers::audio_manager::AudioManager;
+use crate::managers::servo_manager::ServoManager;
 
 #[derive(Deserialize)]
 struct Config {
@@ -80,11 +80,10 @@ async fn main() -> std::io::Result<()> {
     }
 
     // Initialize audio manager
-    let audio_manager = AudioManager::new(config.audio.clone())
-        .map_err(|e| {
-            error!("Failed to initialize audio manager: {}", e);
-            std::io::Error::new(std::io::ErrorKind::Other, e)
-        })?;
+    let audio_manager = AudioManager::new(config.audio.clone()).map_err(|e| {
+        error!("Failed to initialize audio manager: {}", e);
+        std::io::Error::new(std::io::ErrorKind::Other, e)
+    })?;
     let audio_manager_data = web::Data::new(audio_manager);
 
     info!("Hardware initialization complete");
@@ -103,13 +102,13 @@ async fn main() -> std::io::Result<()> {
             .wrap(
                 middleware::DefaultHeaders::new()
                     .add(("X-Version", "1.0"))
-                    .add(("X-Server", "Astromech-Control"))
+                    .add(("X-Server", "Astromech-Control")),
             )
             .configure(api::routes::configure_routes)
     })
-        .bind(&bind_addr)?
-        .workers(2)
-        .shutdown_timeout(30);
+    .bind(&bind_addr)?
+    .workers(2)
+    .shutdown_timeout(30);
 
     // Run the server
     info!("Server starting...");
@@ -117,8 +116,8 @@ async fn main() -> std::io::Result<()> {
 }
 
 fn load_config() -> std::io::Result<Config> {
-    let config_path = std::env::var("ASTROMECH_CONFIG")
-        .unwrap_or_else(|_| "astromech_config.json".to_string());
+    let config_path =
+        std::env::var("ASTROMECH_CONFIG").unwrap_or_else(|_| "astromech_config.json".to_string());
 
     let config_data = fs::read_to_string(&config_path)?;
 
@@ -156,22 +155,19 @@ async fn check_i2c_setup() -> Result<(), HardwareError> {
     }
 
     // Try to open the device to check access
-    match fs::OpenOptions::new()
-        .read(true)
-        .write(true)
-        .open(i2c_path)
-    {
+    match fs::OpenOptions::new().read(true).write(true).open(i2c_path) {
         Ok(_) => {
             info!("I2C device access verified");
             Ok(())
-        },
+        }
         Err(e) => {
             error!("Cannot access I2C device. Please run:");
             error!("sudo chown root:gpio {}", i2c_path);
             error!("sudo chmod 666 {}", i2c_path);
-            Err(HardwareError::InitializationError(
-                format!("Cannot access I2C device: {}", e)
-            ))
+            Err(HardwareError::InitializationError(format!(
+                "Cannot access I2C device: {}",
+                e
+            )))
         }
     }
 }

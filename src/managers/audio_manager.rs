@@ -1,16 +1,16 @@
 // src/managers/audio_manager.rs
 use crate::errors::hardware_error::HardwareError;
 use crate::hardware::audio::config::AudioConfig;
+use log::{error, info};
+use serde::Serialize;
 use std::collections::HashMap;
 use std::fs::{self, File};
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
-use tokio::sync::Mutex;
-use tokio::process::Command;
-use uuid::Uuid;
-use log::{error, info};
-use serde::Serialize;
 use std::process::Stdio;
+use std::sync::Arc;
+use tokio::process::Command;
+use tokio::sync::Mutex;
+use uuid::Uuid;
 
 #[derive(Clone)]
 pub struct AudioManager {
@@ -49,9 +49,9 @@ impl AudioManager {
 
         let mut audio_files = Vec::new();
 
-        for entry in fs::read_dir(audio_path).map_err(|e| {
-            HardwareError::Other(format!("Failed to read audio directory: {}", e))
-        })? {
+        for entry in fs::read_dir(audio_path)
+            .map_err(|e| HardwareError::Other(format!("Failed to read audio directory: {}", e)))?
+        {
             let entry = entry.map_err(|e| {
                 HardwareError::Other(format!("Failed to read directory entry: {}", e))
             })?;
@@ -97,7 +97,7 @@ impl AudioManager {
         // Spawn a new tokio task to handle the playback
         tokio::spawn(async move {
             let result = Command::new("mpg123")
-                .arg("-q")  // Quiet mode
+                .arg("-q") // Quiet mode
                 .arg(&path_string)
                 .stdout(Stdio::null())
                 .stderr(Stdio::null())
@@ -159,11 +159,7 @@ impl AudioManager {
         playbacks.clear();
 
         // Kill all mpg123 processes
-        if let Err(e) = Command::new("pkill")
-            .arg("mpg123")
-            .status()
-            .await
-        {
+        if let Err(e) = Command::new("pkill").arg("mpg123").status().await {
             error!("Failed to stop all audio playbacks: {}", e);
             return Err(HardwareError::Other("Failed to stop audio".to_string()));
         }

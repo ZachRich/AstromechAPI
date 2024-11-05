@@ -1,11 +1,11 @@
 // src/hardware/servo/pca9685.rs
 use crate::errors::hardware_error::HardwareError;
+use crate::hardware::servo::Pca9685Config;
 use linux_embedded_hal::I2cdev;
+use log::info;
 use pwm_pca9685::{Address, Channel, Pca9685};
 use std::sync::Arc;
 use tokio::sync::Mutex;
-use log::info;
-use crate::hardware::servo::Pca9685Config;
 
 pub struct Pca9685Controller {
     config: Pca9685Config,
@@ -22,9 +22,12 @@ impl Pca9685Controller {
             Address::default()
         } else {
             let addr = u8::from_str_radix(&config.i2c_address.trim_start_matches("0x"), 16)
-                .map_err(|_| HardwareError::InvalidParameter(format!(
-                    "Invalid I2C address: {}", config.i2c_address
-                )))?;
+                .map_err(|_| {
+                    HardwareError::InvalidParameter(format!(
+                        "Invalid I2C address: {}",
+                        config.i2c_address
+                    ))
+                })?;
             Address::from(addr)
         };
 
@@ -48,10 +51,17 @@ impl Pca9685Controller {
         })
     }
 
-    pub async fn move_servo(&self, channel: Channel, pulse_width: u16) -> Result<(), HardwareError> {
+    pub async fn move_servo(
+        &self,
+        channel: Channel,
+        pulse_width: u16,
+    ) -> Result<(), HardwareError> {
         let mut device = self.device.lock().await;
 
-        info!("Setting pulse width {} on channel {:?}", pulse_width, channel);
+        info!(
+            "Setting pulse width {} on channel {:?}",
+            pulse_width, channel
+        );
 
         device.set_channel_on(channel, 0).map_err(|e| {
             HardwareError::CommunicationError(format!("Failed to set channel on: {}", e))

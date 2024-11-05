@@ -1,6 +1,6 @@
+use crate::api::audio_handler;
 use crate::api::handlers::{list_controllers, list_servos, move_servo};
 use actix_web::web;
-use crate::api::audio_handler;
 
 // src/api/routes.rs
 pub fn configure_routes(cfg: &mut web::ServiceConfig) {
@@ -15,7 +15,10 @@ pub fn configure_routes(cfg: &mut web::ServiceConfig) {
                     .route("/play", web::post().to(audio_handler::play_audio))
                     .route("/stop/{id}", web::post().to(audio_handler::stop_audio))
                     .route("/stop", web::post().to(audio_handler::stop_all_audio))
-                    .route("/status/{id}", web::get().to(audio_handler::get_audio_status))
+                    .route(
+                        "/status/{id}",
+                        web::get().to(audio_handler::get_audio_status),
+                    ),
             ),
     );
 }
