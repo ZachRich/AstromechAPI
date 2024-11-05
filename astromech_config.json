@@ -2,7 +2,10 @@
   "server": {
     "host": "0.0.0.0",
     "port": 3030,
-    "log_level": "info"
+    "log_level": "debug"
+  },
+  "audio": {
+    "audio_directory": "audio"
   },
   "controllers": [
     {
@@ -21,7 +24,7 @@
       "name": "Pie Panel 1",
       "controller_id": "dome",
       "channel": 0,
-      "min_angle": -90,
+      "min_angle": 0,
       "max_angle": 90,
       "min_pulse": 150,
       "max_pulse": 600,
@@ -31,8 +34,8 @@
       "name": "test_servo",
       "controller_id": "body",
       "channel": 1,
-      "min_angle": -45,
-      "max_angle": 45,
+      "min_angle": 0,
+      "max_angle": 90,
       "min_pulse": 150,
       "max_pulse": 600,
       "description": "test servo"
