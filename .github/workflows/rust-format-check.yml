@@ -1,17 +1,12 @@
-name: Rust Format Check
-
+name: Rustfmt Check
 on: [push, pull_request]
-
 jobs:
-  rustfmt:
+  formatting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          toolchain: stable
-          override: true
           components: rustfmt
-      - uses: actions-rs/rustfmt-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Rustfmt Check
+        uses: actions-rust-lang/rustfmt@v1
