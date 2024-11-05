@@ -2,6 +2,8 @@
 use crate::managers::servo_manager::ServoManager;
 use actix_web::{web, HttpResponse, Responder};
 use serde::Deserialize;
+use uuid::Uuid;
+use crate::managers::audio_manager::AudioManager;
 
 #[derive(Deserialize)]
 pub struct MoveServoRequest {
@@ -9,12 +11,12 @@ pub struct MoveServoRequest {
 }
 
 pub async fn list_controllers(manager: web::Data<ServoManager>) -> impl Responder {
-    let controllers = manager.get_controllers().await;
+    let controllers = manager.list_controllers().await;
     HttpResponse::Ok().json(controllers)
 }
 
 pub async fn list_servos(manager: web::Data<ServoManager>) -> impl Responder {
-    let servos = manager.get_all_servos().await;
+    let servos = manager.list_servos().await;
     HttpResponse::Ok().json(servos)
 }
 
