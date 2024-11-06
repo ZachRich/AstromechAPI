@@ -1,4 +1,3 @@
-// src/hardware/audio/config.rs
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Deserialize, Serialize)]

@@ -1,4 +1,3 @@
-// src/lib.rs (if you don't have one, create it)
 pub mod api;
 pub mod config;
 pub mod errors;

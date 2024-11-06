@@ -3,7 +3,6 @@ use crate::api::audio_handler::get_duration;
 use crate::api::handlers::{list_controllers, list_servos, move_servo};
 use actix_web::web;
 
-// src/api/routes.rs
 pub fn configure_routes(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::scope("/api")

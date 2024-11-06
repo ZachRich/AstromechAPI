@@ -1,4 +1,3 @@
-// src/api/audio_handlers.rs
 use crate::errors::hardware_error::HardwareError;
 use crate::managers::audio_manager::AudioManager;
 use actix_web::{web, HttpResponse, Responder};

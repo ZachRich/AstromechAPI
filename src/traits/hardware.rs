@@ -1,4 +1,3 @@
-// src/traits/hardware.rs
 use crate::errors::hardware_error::HardwareError;
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};

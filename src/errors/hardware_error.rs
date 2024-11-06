@@ -1,4 +1,3 @@
-// src/errors/hardware_error.rs
 use thiserror::Error;
 
 #[derive(Error, Debug)]
