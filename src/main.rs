@@ -1,3 +1,4 @@
+use actix_web::web::Data;
 // src/main.rs
 use actix_web::{middleware, web, App, HttpServer};
 use log::{error, info, LevelFilter};
@@ -10,12 +11,13 @@ mod config;
 mod errors;
 mod hardware;
 mod managers;
-mod traits;
 
+use crate::api::handlers::RoutineHandler;
 use crate::errors::hardware_error::HardwareError;
 use crate::hardware::audio::config::AudioConfig;
 use crate::hardware::servo::config::{Pca9685Config, ServoConfig};
 use crate::managers::audio_manager::AudioManager;
+use crate::managers::routine_manager::RoutineManager;
 use crate::managers::servo_manager::ServoManager;
 
 #[derive(Deserialize)]
@@ -35,7 +37,7 @@ struct ServerConfig {
 
 async fn initialize_hardware(
     config: &Config,
-    servo_manager_data: &web::Data<ServoManager>,
+    servo_manager_data: &Data<ServoManager>,
 ) -> Result<(), HardwareError> {
     // Initialize PCA9685 controllers
     for controller_config in &config.controllers {
@@ -86,6 +88,14 @@ async fn main() -> std::io::Result<()> {
     })?;
     let audio_manager_data = web::Data::new(audio_manager);
 
+    let routine_manager = Arc::new(RoutineManager::new(
+        servo_manager_data.clone(),
+        audio_manager_data.clone(),
+    ));
+
+    // Wrap `RoutineManager` in `RoutineHandler` and register it in `web::Data`
+    let routine_handler = web::Data::new(RoutineHandler::new(routine_manager));
+
     info!("Hardware initialization complete");
 
     // Create server bind address
@@ -97,6 +107,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(servo_manager_data.clone())
             .app_data(audio_manager_data.clone())
+            .app_data(routine_handler.clone())
             .wrap(middleware::Logger::default())
             .wrap(middleware::Compress::default())
             .wrap(
