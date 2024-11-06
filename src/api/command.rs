@@ -30,7 +30,7 @@ impl Command {
             Command::MoveServo {
                 servo_name,
                 position,
-                duration,
+                duration: _duration,
             } => {
                 // Call the move_servo function on ServoManager
                 if let Err(e) = servo_manager.move_servo(&servo_name, *position).await {
@@ -44,7 +44,7 @@ impl Command {
                 }
             }
             Command::Pause { duration } => {
-                // Pause for the specified duration
+                // Pause for the specified _duration
                 tokio::time::sleep(Duration::from_millis(*duration)).await;
             }
         }
