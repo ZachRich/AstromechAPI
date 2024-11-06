@@ -51,19 +51,19 @@
       "description": "Pie panel servo"
     },
     {
-      "name": "Grabber Arm 1",
-      "controller_id": "body",
-      "channel": 0,
+      "name": "Pie Panel 4",
+      "controller_id": "dome",
+      "channel": 3,
       "min_angle": 0,
       "max_angle": 90,
       "min_pulse": 150,
       "max_pulse": 600,
-      "description": "test servo"
+      "description": "Pie panel servo"
     },
     {
-      "name": "Grabber Arm 2",
+      "name": "Grabber Arm 1",
       "controller_id": "body",
-      "channel": 1,
+      "channel": 0,
       "min_angle": 0,
       "max_angle": 90,
       "min_pulse": 150,
