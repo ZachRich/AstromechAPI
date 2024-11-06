@@ -1,0 +1,6 @@
+[
+  { "command": "move_servo", "servo_name": "Pie Panel 1", "position": 90, "duration": 1000 },
+  { "command": "play_audio", "file": "WOWIE.mp3" },
+  { "command": "pause", "duration": 500 },
+  { "command": "move_servo", "servo_name": "Pie Panel 2", "position": 45, "duration": 1000 }
+]
