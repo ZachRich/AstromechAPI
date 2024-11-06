@@ -1,5 +1,4 @@
 use actix_web::web::Data;
-// src/main.rs
 use actix_web::{middleware, web, App, HttpServer};
 use log::{error, info, LevelFilter};
 use serde::Deserialize;
