@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "435390b3-03b6-40bc-b153-92f6f4755dc1",
 		"name": "AstromechAPI",
-		"description": "API collection for controlling Astromech servos and components",
+		"description": "API collection for controlling R2D2 servos and components",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10290509"
 	},
@@ -41,7 +41,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"angle\": 45.0\n}"
+							"raw": "{\n    \"angle\": 90\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/servos/{{servoName}}/move",
@@ -86,6 +86,130 @@
 				}
 			],
 			"description": "Endpoints for managing PCA9685 controllers"
+		},
+		{
+			"name": "Audio",
+			"item": [
+				{
+					"name": "List Audio",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/audio",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"audio"
+							]
+						},
+						"description": "Get a list of all PCA9685 controllers and their configurations"
+					},
+					"response": []
+				},
+				{
+					"name": "play_audio",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filename\": \"LEIA.mp3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/audio/play",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"audio",
+								"play"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_duration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filename\": \"LEIA.mp3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/audio/duration",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"audio",
+								"duration"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Routines",
+			"item": [
+				{
+					"name": "run_routine",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"commands\": [\r\n    { \"type\": \"play_audio\", \"file\": \"CANTINA.mp3\" },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 400 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 0, \"duration\": 0 },\r\n    { \"type\": \"pause\", \"duration\": 200 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 1\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 2\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 3\", \"position\": 90, \"duration\": 0 },\r\n    { \"type\": \"move_servo\", \"servo_name\": \"Pie Panel 4\", \"position\": 90, \"duration\": 0 }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/routine",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"routine"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
